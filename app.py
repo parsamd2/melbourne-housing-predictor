@@ -244,14 +244,11 @@ html, body, [class*="css"], .stApp {
     transform: translateY(0) !important;
 }
 
-/* Hide slider min/max numeric labels */
-.stSlider [data-baseweb="slider"] > div > div:nth-of-type(1) > div:nth-of-type(2),
-.stSlider [data-baseweb="slider"] > div > div:nth-of-type(2) {
+/* Hide ONLY the min/max number labels at the ends of the slider track */
+.stSlider div[data-testid="stTickBarMin"],
+.stSlider div[data-testid="stTickBarMax"] {
     display: none !important;
 }
-.stSlider div[data-testid="stTickBar"] { display: none !important; }
-.stSlider div[data-testid="stTickBarMin"], 
-.stSlider div[data-testid="stTickBarMax"] { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
