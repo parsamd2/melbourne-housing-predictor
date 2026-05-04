@@ -244,21 +244,27 @@ html, body, [class*="css"], .stApp {
     transform: translateY(0) !important;
 }
 
-/* Remove orange background from slider value tooltips and tick labels */
-.stSlider div[data-testid="stSliderThumbValue"],
-.stSlider div[data-testid="stTickBarMin"],
-.stSlider div[data-testid="stTickBarMax"] {
+/* Remove orange background from slider value tooltip (the popup shown when hovering the slider) */
+[data-testid="stSliderThumbValue"],
+[data-testid="stSliderThumbValue"] > div,
+[data-testid="stSliderThumbValue"] > div > div,
+[data-testid="stSliderThumbValue"] p {
     background: transparent !important;
     background-color: transparent !important;
     color: #EDE8E0 !important;
     box-shadow: none !important;
     border: none !important;
-    padding: 0 !important;
 }
-.stSlider div[data-testid="stTickBarMin"],
-.stSlider div[data-testid="stTickBarMax"] {
+
+/* Tick bar labels at slider ends */
+[data-testid="stTickBarMin"],
+[data-testid="stTickBarMax"] {
+    background: transparent !important;
+    background-color: transparent !important;
     color: #6B6358 !important;
     font-size: 0.7rem !important;
+    box-shadow: none !important;
+    border: none !important;
 }
 </style>
 """, unsafe_allow_html=True)
