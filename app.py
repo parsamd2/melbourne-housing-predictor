@@ -244,17 +244,6 @@ html, body, [class*="css"], .stApp {
     transform: translateY(0) !important;
 }
 
-/* Remove orange background from slider value tooltip (the popup shown when hovering the slider) */
-[data-testid="stSliderThumbValue"],
-[data-testid="stSliderThumbValue"] > div,
-[data-testid="stSliderThumbValue"] > div > div,
-[data-testid="stSliderThumbValue"] p {
-    background: transparent !important;
-    background-color: transparent !important;
-    color: #EDE8E0 !important;
-    box-shadow: none !important;
-    border: none !important;
-}
 
 /* Tick bar labels at slider ends */
 [data-testid="stTickBarMin"],
@@ -265,6 +254,47 @@ html, body, [class*="css"], .stApp {
     font-size: 0.7rem !important;
     box-shadow: none !important;
     border: none !important;
+}
+
+/* ── KILL ORANGE BACKGROUND ON ALL SLIDER VALUE TOOLTIPS ── */
+.stSlider [data-baseweb="tooltip"],
+.stSlider [data-baseweb="tooltip"] > div,
+.stSlider [data-baseweb="tooltip"] * {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    color: #EDE8E0 !important;
+}
+
+[data-testid="stSliderThumbValue"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #EDE8E0 !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+[data-testid="stSliderThumbValue"] * {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #EDE8E0 !important;
+    box-shadow: none !important;
+}
+
+/* Tick labels at ends */
+[data-testid="stTickBarMin"],
+[data-testid="stTickBarMax"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #6B6358 !important;
+    font-size: 0.7rem !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+[data-testid="stTickBarMin"] *,
+[data-testid="stTickBarMax"] * {
+    background: transparent !important;
+    background-color: transparent !important;
 }
 </style>
 """, unsafe_allow_html=True)
