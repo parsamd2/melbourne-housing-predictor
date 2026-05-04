@@ -32,28 +32,28 @@ html, body, [class*="css"] {
 /* Hero title */
 .hero-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 2.8rem;
-    line-height: 1.15;
-    color: #1A1A1A;
-    margin-bottom: 0.25rem;
-    letter-spacing: -0.5px;
+    font-size: 3.4rem;
+    line-height: 1.12;
+    color: #2D5BE3;
+    margin-bottom: 0.3rem;
+    letter-spacing: -1px;
 }
 .hero-sub {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    color: #777;
-    font-weight: 300;
+    font-size: 1rem;
+    color: #888;
+    font-weight: 400;
     margin-bottom: 2rem;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
 }
 
 /* Section label */
 .section-label {
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 2px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: #999;
+    color: #2D5BE3;
     margin-bottom: 0.75rem;
     margin-top: 1.5rem;
 }
@@ -155,15 +155,15 @@ html, body, [class*="css"] {
     text-transform: uppercase !important;
 }
 .stButton > button {
-    background-color: #1A1A1A !important;
-    color: #F7F5F2 !important;
+    background-color: #2D5BE3 !important;
+    color: #FFFFFF !important;
     border: none !important;
     border-radius: 10px !important;
     font-family: 'DM Sans', sans-serif !important;
-    font-size: 0.9rem !important;
-    font-weight: 500 !important;
-    letter-spacing: 1px !important;
-    padding: 0.65rem 2rem !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 2px !important;
+    padding: 0.8rem 2rem !important;
     transition: opacity 0.2s !important;
 }
 .stButton > button:hover {
