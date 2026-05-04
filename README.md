@@ -2,7 +2,6 @@
 
 A machine learning web application that predicts residential property sold prices across three Melbourne suburbs: **Richmond**, **Hawthorn**, and **Box Hill**.
 
-Built for **SIT720 Real World Analytics** — Deakin University, Trimester 1 2025.
 
 ---
 
@@ -109,8 +108,8 @@ streamlit run app.py
 
 ## Disclaimer
 
-Data was collected for educational purposes only as part of a Deakin University assignment. This project is not intended for commercial use.
+Data was collected for educational purposes only as part of a University assignment. This project is not intended for commercial use.
 
 ---
 
-*Parsa Majidifard | Student ID: 225539173 | Deakin University*
+*Parsa Majidifard Deakin University*
