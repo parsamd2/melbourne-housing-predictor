@@ -244,16 +244,21 @@ html, body, [class*="css"], .stApp {
     transform: translateY(0) !important;
 }
 
-/* Remove orange background from min/max number labels — keep numbers visible */
+/* Remove orange background from slider value tooltips and tick labels */
+.stSlider div[data-testid="stSliderThumbValue"],
 .stSlider div[data-testid="stTickBarMin"],
 .stSlider div[data-testid="stTickBarMax"] {
     background: transparent !important;
     background-color: transparent !important;
-    color: #6B6358 !important;
-    font-size: 0.7rem !important;
-    padding: 0 !important;
+    color: #EDE8E0 !important;
     box-shadow: none !important;
     border: none !important;
+    padding: 0 !important;
+}
+.stSlider div[data-testid="stTickBarMin"],
+.stSlider div[data-testid="stTickBarMax"] {
+    color: #6B6358 !important;
+    font-size: 0.7rem !important;
 }
 </style>
 """, unsafe_allow_html=True)
