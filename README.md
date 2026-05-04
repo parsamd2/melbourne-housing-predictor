@@ -90,7 +90,7 @@ streamlit run app.py
 ```
 ├── app.py                    # Streamlit web application
 ├── xgboost_pipeline.pkl      # Trained XGBoost pipeline (preprocessor + model)
-├── SIT720_Melbourne_Housing_Prediction.ipynb  # Full analysis notebook
+├── Melbourne_Housing_Prediction.ipynb  # Full analysis notebook
 ├── requirements.txt          # Python dependencies
 └── README.md
 ```
