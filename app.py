@@ -7,8 +7,8 @@ import json
 
 # ── Page config ───────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Suburb Price Estimator",
-    page_icon="🏙",
+    page_title="Property Price Estimator",
+    page_icon="✦",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
@@ -16,158 +16,222 @@ st.set_page_config(
 # ── Custom CSS ────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
 /* Global */
-html, body, [class*="css"] {
-    font-family: 'DM Sans', sans-serif;
-    background-color: #F7F5F2;
-    color: #1A1A1A;
+html, body, [class*="css"], .stApp {
+    font-family: 'Inter', sans-serif;
+    background-color: #0F1115 !important;
+    color: #EDE8E0;
 }
 
 /* Hide streamlit branding */
 #MainMenu, footer, header { visibility: hidden; }
-.block-container { padding-top: 2rem; padding-bottom: 2rem; max-width: 680px; }
+.block-container {
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
+    max-width: 720px;
+}
 
-/* Hero title */
+/* ── HERO ───────────────────────────────────────────── */
+.hero-wrap {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-top: 1rem;
+}
 .hero-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 3.4rem;
-    line-height: 1.12;
-    color: #2D5BE3;
-    margin-bottom: 0.3rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    line-height: 1;
+    color: #EDE8E0;
     letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+.hero-title em {
+    color: #D97757;
+    font-style: italic;
+    font-weight: 400;
 }
 .hero-sub {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    color: #888;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    color: #8A8378;
     font-weight: 400;
-    margin-bottom: 2rem;
-    letter-spacing: 0.5px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+.hero-divider {
+    width: 60px;
+    height: 1px;
+    background: #D97757;
+    margin: 1.25rem auto 0 auto;
+    opacity: 0.6;
 }
 
-/* Section label */
+/* ── SECTION LABELS ─────────────────────────────────── */
 .section-label {
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #2D5BE3;
-    margin-bottom: 0.75rem;
-    margin-top: 1.5rem;
-}
-
-/* Result card */
-.result-card {
-    background: #1A1A1A;
-    border-radius: 16px;
-    padding: 2rem 2.5rem;
-    margin: 1.5rem 0;
-    text-align: center;
-}
-.result-label {
-    font-size: 0.72rem;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: #888;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
     font-weight: 500;
-    margin-bottom: 0.5rem;
+    color: #EDE8E0;
+    margin-top: 2.25rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.3px;
 }
-.result-price {
-    font-family: 'DM Serif Display', serif;
-    font-size: 3.2rem;
-    color: #F7F5F2;
-    letter-spacing: -1px;
-    line-height: 1;
-}
-.result-range {
-    font-size: 0.82rem;
-    color: #666;
-    margin-top: 0.75rem;
-    font-weight: 300;
-}
-.result-range span {
-    color: #aaa;
-    font-weight: 400;
+.section-label em {
+    color: #D97757;
+    font-style: italic;
 }
 
-/* Info badge */
+/* ── INFO BADGE ─────────────────────────────────────── */
 .info-badge {
     display: inline-block;
-    background: #EDE9E3;
-    border-radius: 6px;
-    padding: 0.35rem 0.75rem;
-    font-size: 0.8rem;
-    color: #555;
-    margin-top: 0.25rem;
+    background: rgba(217, 119, 87, 0.08);
+    border: 1px solid rgba(217, 119, 87, 0.3);
+    border-radius: 4px;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.82rem;
+    color: #D97757;
+    letter-spacing: 0.3px;
 }
 
-/* Summary grid */
+/* ── RESULT CARD ────────────────────────────────────── */
+.result-card {
+    background: linear-gradient(145deg, #1A1D24 0%, #14161B 100%);
+    border: 1px solid rgba(217, 119, 87, 0.2);
+    border-radius: 4px;
+    padding: 2.5rem 2rem;
+    margin: 2rem 0;
+    text-align: center;
+    position: relative;
+}
+.result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 1px;
+    background: #D97757;
+}
+.result-label {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #8A8378;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+.result-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    color: #EDE8E0;
+    letter-spacing: -2px;
+    line-height: 1;
+    font-weight: 500;
+}
+.result-range {
+    font-size: 0.8rem;
+    color: #6B6358;
+    margin-top: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+.result-range b {
+    color: #B8AEA0;
+    font-weight: 500;
+}
+
+/* ── WARNING ────────────────────────────────────────── */
+.warn-box {
+    background: rgba(245, 166, 35, 0.08);
+    border-left: 2px solid #F5A623;
+    padding: 1rem 1.2rem;
+    font-size: 0.85rem;
+    color: #F5A623;
+    margin: 1.5rem 0;
+    letter-spacing: 0.2px;
+}
+
+/* ── DIVIDER ────────────────────────────────────────── */
+.thin-line {
+    border: none;
+    border-top: 1px solid rgba(237, 232, 224, 0.08);
+    margin: 2rem 0;
+}
+
+/* ── SUMMARY GRID ───────────────────────────────────── */
 .summary-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 0.75rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 .summary-item {
-    background: #EDEAE4;
-    border-radius: 10px;
+    background: rgba(237, 232, 224, 0.04);
+    border: 1px solid rgba(237, 232, 224, 0.06);
+    border-radius: 3px;
     padding: 0.85rem 1rem;
 }
 .summary-key {
-    font-size: 0.65rem;
-    letter-spacing: 1.5px;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: #999;
-    margin-bottom: 0.2rem;
+    color: #6B6358;
+    margin-bottom: 0.3rem;
 }
 .summary-val {
     font-size: 0.95rem;
     font-weight: 500;
-    color: #1A1A1A;
+    color: #EDE8E0;
 }
 
-/* Warning */
-.warn-box {
-    background: #FFF4E5;
-    border-left: 3px solid #F5A623;
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
-    font-size: 0.85rem;
-    color: #8A6200;
-    margin: 1rem 0;
-}
-
-/* Divider */
-.thin-line {
-    border: none;
-    border-top: 1px solid #E5E2DC;
-    margin: 1.5rem 0;
-}
-
-/* Streamlit widget overrides */
+/* ── STREAMLIT WIDGETS ──────────────────────────────── */
 .stSelectbox label, .stSlider label, .stNumberInput label, .stRadio label {
-    font-size: 0.78rem !important;
+    font-size: 0.7rem !important;
     font-weight: 500 !important;
-    letter-spacing: 0.5px !important;
-    color: #555 !important;
+    letter-spacing: 2px !important;
+    color: #8A8378 !important;
     text-transform: uppercase !important;
 }
+
+/* Selectbox text */
+.stSelectbox > div > div, .stNumberInput > div > div > input {
+    background-color: rgba(237, 232, 224, 0.04) !important;
+    color: #EDE8E0 !important;
+    border: 1px solid rgba(237, 232, 224, 0.1) !important;
+    border-radius: 3px !important;
+}
+
+/* Sliders */
+.stSlider [data-baseweb="slider"] > div > div { background: #D97757 !important; }
+.stSlider [role="slider"] { background: #D97757 !important; border: none !important; }
+
+/* Radio */
+.stRadio > div { gap: 0.5rem !important; }
+
+/* ── PRIMARY BUTTON ─────────────────────────────────── */
 .stButton > button {
-    background-color: #2D5BE3 !important;
-    color: #FFFFFF !important;
+    background: linear-gradient(135deg, #D97757 0%, #C96644 100%) !important;
+    color: #0F1115 !important;
     border: none !important;
-    border-radius: 10px !important;
-    font-family: 'DM Sans', sans-serif !important;
-    font-size: 1rem !important;
+    border-radius: 3px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.85rem !important;
     font-weight: 700 !important;
-    letter-spacing: 2px !important;
-    padding: 0.8rem 2rem !important;
-    transition: opacity 0.2s !important;
+    letter-spacing: 4px !important;
+    padding: 1.1rem 2rem !important;
+    transition: all 0.25s ease !important;
+    box-shadow: 0 4px 20px rgba(217, 119, 87, 0.25) !important;
 }
 .stButton > button:hover {
-    opacity: 0.85 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 25px rgba(217, 119, 87, 0.4) !important;
+    background: linear-gradient(135deg, #E5825F 0%, #D17252 100%) !important;
+}
+.stButton > button:active {
+    transform: translateY(0) !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -223,12 +287,17 @@ PTYPE_RULES = {
     "Studio":                  dict(min_beds=1, max_beds=1, max_baths=1, max_cars=1, needs_land=False, fixed=True),
 }
 
-# ── Hero ──────────────────────────────────────────────────────────
-st.markdown('<div class="hero-title">Property Price<br><i>Estimator</i></div>', unsafe_allow_html=True)
-st.markdown('<div class="hero-sub">Melbourne · Richmond · Hawthorn · Box Hill</div>', unsafe_allow_html=True)
+# ── HERO ──────────────────────────────────────────────────────────
+st.markdown("""
+<div class="hero-wrap">
+    <div class="hero-title">Property Price <em>Estimator</em></div>
+    <div class="hero-divider"></div>
+    <div class="hero-sub" style="margin-top: 1.25rem">Melbourne · Richmond · Hawthorn · Box Hill</div>
+</div>
+""", unsafe_allow_html=True)
 
-# ── Location ──────────────────────────────────────────────────────
-st.markdown('<div class="section-label">Location & Type</div>', unsafe_allow_html=True)
+# ── LOCATION & TYPE ───────────────────────────────────────────────
+st.markdown('<div class="section-label"><em>01</em> &nbsp; Location & Type</div>', unsafe_allow_html=True)
 col1, col2 = st.columns(2)
 with col1:
     suburb = st.selectbox("Suburb", list(COORDS.keys()), label_visibility="collapsed")
@@ -237,18 +306,18 @@ with col2:
 
 rules = PTYPE_RULES[ptype]
 
-# ── Property details ──────────────────────────────────────────────
-st.markdown('<div class="section-label">Property Details</div>', unsafe_allow_html=True)
+# ── PROPERTY DETAILS ──────────────────────────────────────────────
+st.markdown('<div class="section-label"><em>02</em> &nbsp; Property Details</div>', unsafe_allow_html=True)
 
 if rules["fixed"]:
     beds  = 1
     baths = 1
-    st.markdown('<div class="info-badge">🛏 Studio — 1 bed · 1 bath fixed</div>', unsafe_allow_html=True)
+    st.markdown('<div class="info-badge">✦ Studio · 1 bedroom · 1 bathroom</div>', unsafe_allow_html=True)
     st.write("")
 else:
     c1, c2 = st.columns(2)
     with c1:
-        beds  = st.slider("Bedrooms",  min_value=rules["min_beds"], max_value=rules["max_beds"],  value=min(2, rules["max_beds"]))
+        beds  = st.slider("Bedrooms",  min_value=rules["min_beds"], max_value=rules["max_beds"], value=min(2, rules["max_beds"]))
     with c2:
         baths = st.slider("Bathrooms", min_value=1, max_value=rules["max_baths"], value=1)
 
@@ -260,10 +329,10 @@ with c4:
         land = st.number_input("Land Size (sqm)", min_value=1, max_value=5000, value=300, step=10)
     else:
         land = 0
-        st.markdown('<div style="margin-top:1.8rem"><div class="info-badge">🏢 No land — apartment/studio</div></div>', unsafe_allow_html=True)
+        st.markdown('<div style="margin-top:1.6rem"><div class="info-badge">✦ No land · apartment / studio</div></div>', unsafe_allow_html=True)
 
-# ── Sale details ──────────────────────────────────────────────────
-st.markdown('<div class="section-label">Sale Details</div>', unsafe_allow_html=True)
+# ── SALE DETAILS ──────────────────────────────────────────────────
+st.markdown('<div class="section-label"><em>03</em> &nbsp; Sale Details</div>', unsafe_allow_html=True)
 c5, c6 = st.columns(2)
 with c5:
     method = st.radio("Sale Method", ["Private Treaty", "Auction"], horizontal=True)
@@ -272,8 +341,9 @@ with c6:
                           format_func=lambda x: MONTHS[x], index=3)
 
 st.write("")
+st.write("")
 
-# ── Predict ───────────────────────────────────────────────────────
+# ── PREDICT ───────────────────────────────────────────────────────
 if st.button("ESTIMATE PRICE", use_container_width=True):
 
     lat, lon   = COORDS[suburb]
@@ -311,14 +381,14 @@ if st.button("ESTIMATE PRICE", use_container_width=True):
             <div class="result-label">Estimated Sold Price</div>
             <div class="result-price">${price:,.0f}</div>
             <div class="result-range">
-                <span>${low:,.0f}</span> &nbsp;—&nbsp; <span>${high:,.0f}</span>
-                &nbsp;&nbsp;·&nbsp;&nbsp; ±10% typical range
+                <b>${low:,.0f}</b> &nbsp; — &nbsp; <b>${high:,.0f}</b>
+                <br><span style="font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;">±10% typical range</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
     st.markdown('<hr class="thin-line">', unsafe_allow_html=True)
-    st.markdown('<div class="section-label">Input Summary</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-label"><em>04</em> &nbsp; Input Summary</div>', unsafe_allow_html=True)
 
     items = [
         ("Suburb",        suburb),
