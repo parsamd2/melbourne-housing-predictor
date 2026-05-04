@@ -55,11 +55,21 @@ html, body, [class*="css"], .stApp {
 }
 .hero-sub {
     font-family: 'Inter', sans-serif;
-    font-size: 0.78rem;
     color: #8A8378;
     font-weight: 400;
-    letter-spacing: 4px;
     text-transform: uppercase;
+}
+.city-main {
+    font-size: 1.1rem;
+    color: #EDE8E0;
+    font-weight: 600;
+    letter-spacing: 5px;
+}
+.city-sub {
+    font-size: 0.72rem;
+    color: #8A8378;
+    letter-spacing: 3px;
+    margin-left: 8px;
 }
 .hero-divider {
     width: 60px;
@@ -124,10 +134,10 @@ html, body, [class*="css"], .stApp {
     margin-bottom: 1rem;
 }
 .result-price {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 4rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 3.2rem;
     color: #EDE8E0;
-    letter-spacing: -2px;
+    letter-spacing: -1.5px;
     line-height: 1;
     font-weight: 500;
 }
@@ -233,6 +243,15 @@ html, body, [class*="css"], .stApp {
 .stButton > button:active {
     transform: translateY(0) !important;
 }
+
+/* Hide slider min/max numeric labels */
+.stSlider [data-baseweb="slider"] > div > div:nth-of-type(1) > div:nth-of-type(2),
+.stSlider [data-baseweb="slider"] > div > div:nth-of-type(2) {
+    display: none !important;
+}
+.stSlider div[data-testid="stTickBar"] { display: none !important; }
+.stSlider div[data-testid="stTickBarMin"], 
+.stSlider div[data-testid="stTickBarMax"] { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -292,12 +311,12 @@ st.markdown("""
 <div class="hero-wrap">
     <div class="hero-title">Property Price <em>Estimator</em></div>
     <div class="hero-divider"></div>
-    <div class="hero-sub" style="margin-top: 1.25rem">Melbourne · Richmond · Hawthorn · Box Hill</div>
+    <div class="hero-sub" style="margin-top: 1.25rem"><span class="city-main">Melbourne</span> <span class="city-sub">· Richmond · Hawthorn · Box Hill</span></div>
 </div>
 """, unsafe_allow_html=True)
 
 # ── LOCATION & TYPE ───────────────────────────────────────────────
-st.markdown('<div class="section-label"><em>01</em> &nbsp; Location & Type</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-label">Location & Type</div>', unsafe_allow_html=True)
 col1, col2 = st.columns(2)
 with col1:
     suburb = st.selectbox("Suburb", list(COORDS.keys()), label_visibility="collapsed")
@@ -307,7 +326,7 @@ with col2:
 rules = PTYPE_RULES[ptype]
 
 # ── PROPERTY DETAILS ──────────────────────────────────────────────
-st.markdown('<div class="section-label"><em>02</em> &nbsp; Property Details</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-label">Property Details</div>', unsafe_allow_html=True)
 
 if rules["fixed"]:
     beds  = 1
@@ -332,7 +351,7 @@ with c4:
         st.markdown('<div style="margin-top:1.6rem"><div class="info-badge">✦ No land · apartment / studio</div></div>', unsafe_allow_html=True)
 
 # ── SALE DETAILS ──────────────────────────────────────────────────
-st.markdown('<div class="section-label"><em>03</em> &nbsp; Sale Details</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-label">Sale Details</div>', unsafe_allow_html=True)
 c5, c6 = st.columns(2)
 with c5:
     method = st.radio("Sale Method", ["Private Treaty", "Auction"], horizontal=True)
@@ -388,7 +407,7 @@ if st.button("ESTIMATE PRICE", use_container_width=True):
         """, unsafe_allow_html=True)
 
     st.markdown('<hr class="thin-line">', unsafe_allow_html=True)
-    st.markdown('<div class="section-label"><em>04</em> &nbsp; Input Summary</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-label">Input Summary</div>', unsafe_allow_html=True)
 
     items = [
         ("Suburb",        suburb),
