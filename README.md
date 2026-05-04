@@ -7,7 +7,7 @@ A machine learning web application that predicts residential property sold price
 
 ## Live App
 
-[▶ Open the app]([https://melbourne-housing-predictor.streamlit.app](https://melbourne-housing-parsa.streamlit.app/))
+[▶ Open the app](https://melbourne-housing-parsa.streamlit.app/)
 
 ---
 
