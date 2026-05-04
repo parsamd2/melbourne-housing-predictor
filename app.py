@@ -43,7 +43,7 @@ def count_schools(lat, lon, r=2):
             np.sin(dlon/2)**2)
     return int((6371 * 2 * np.arctan2(np.sqrt(a), np.sqrt(1-a)) <= r).sum())
 
-# ── Fixed lookup tables ───────────────────────────────────────────
+# ── Lookup tables ─────────────────────────────────────────────────
 COORDS = {
     "Richmond": (-37.823, 145.000),
     "Hawthorn": (-37.823, 145.033),
@@ -56,8 +56,17 @@ MONTHS = {
     9:"September",10:"October",11:"November", 12:"December"
 }
 
-# Property types that must have land size
-NEEDS_LAND = {"House", "Townhouse", "Villa", "Vacant land", "Block of Units"}
+# ── Property type constraints ─────────────────────────────────────
+# (max_beds, max_baths, max_cars, needs_land, fixed_beds, fixed_baths)
+PTYPE_RULES = {
+    "House":                   dict(min_beds=1, max_beds=6, min_baths=1, max_baths=5, max_cars=4, needs_land=True,  fixed_beds=None, fixed_baths=None),
+    "Townhouse":               dict(min_beds=1, max_beds=5, min_baths=1, max_baths=4, max_cars=3, needs_land=True,  fixed_beds=None, fixed_baths=None),
+    "Villa":                   dict(min_beds=1, max_beds=4, min_baths=1, max_baths=3, max_cars=2, needs_land=True,  fixed_beds=None, fixed_baths=None),
+    "Apartment / Unit / Flat": dict(min_beds=1, max_beds=4, min_baths=1, max_baths=3, max_cars=2, needs_land=False, fixed_beds=None, fixed_baths=None),
+    "Studio":                  dict(min_beds=1, max_beds=1, min_baths=1, max_baths=1, max_cars=1, needs_land=False, fixed_beds=1,    fixed_baths=1),
+}
+
+PROPERTY_TYPES = list(PTYPE_RULES.keys())
 
 # ── Header ────────────────────────────────────────────────────────
 st.title("🏠 Melbourne Housing Price Predictor")
@@ -73,33 +82,42 @@ col1, col2 = st.columns(2)
 
 with col1:
     suburb = st.selectbox("Suburb", ["Richmond", "Hawthorn", "Box Hill"])
-    ptype  = st.selectbox("Property Type", [
-        "House",
-        "Apartment / Unit / Flat",
-        "Townhouse",
-        "Villa",
-        "Studio",
-        "Block of Units",
-        "New Apartments / Off the Plan",
-        "Vacant land",
-    ])
-    beds  = st.slider("Bedrooms",  min_value=1, max_value=6, value=2)
-    baths = st.slider("Bathrooms", min_value=1, max_value=5, value=1)
+    ptype  = st.selectbox("Property Type", PROPERTY_TYPES)
+
+    rules = PTYPE_RULES[ptype]
+
+    # Bedrooms — fixed for studio, slider for others
+    if rules["fixed_beds"]:
+        beds = rules["fixed_beds"]
+        st.info(f"🛏 Bedrooms: {beds} (fixed for {ptype})")
+    else:
+        beds = st.slider("Bedrooms",
+                         min_value=rules["min_beds"],
+                         max_value=rules["max_beds"],
+                         value=min(2, rules["max_beds"]))
+
+    # Bathrooms — fixed for studio, slider for others
+    if rules["fixed_baths"]:
+        baths = rules["fixed_baths"]
+        st.info(f"🚿 Bathrooms: {baths} (fixed for {ptype})")
+    else:
+        baths = st.slider("Bathrooms",
+                          min_value=rules["min_baths"],
+                          max_value=rules["max_baths"],
+                          value=1)
 
 with col2:
-    cars = st.slider("Car Spaces", min_value=0, max_value=4, value=1)
+    cars = st.slider("Car Spaces", min_value=0, max_value=rules["max_cars"], value=min(1, rules["max_cars"]))
 
-    # Land size: required for houses/townhouses, optional for apartments
-    if ptype in NEEDS_LAND:
+    # Land size — required for House/Townhouse/Villa, hidden for others
+    if rules["needs_land"]:
         land = st.number_input(
             "Land Size (sqm) — required for this property type",
             min_value=1, max_value=5000, value=300, step=10
         )
     else:
-        land = st.number_input(
-            "Land Size (sqm) — enter 0 for apartments/units",
-            min_value=0, max_value=2000, value=0, step=10
-        )
+        land = 0
+        st.info("🏢 Land size: N/A for this property type")
 
     method = st.radio(
         "Sale Method", ["Private Treaty", "Auction"], horizontal=True
@@ -146,7 +164,7 @@ if st.button("💰 Predict Price", type="primary", use_container_width=True):
     elif price > 10000000:
         st.warning("⚠️ Prediction seems unusually high — please check your inputs.")
 
-    # Result — use st.metric so fonts are consistent
+    # Result
     st.success(f"### Estimated Sold Price:  ${price:,.0f}")
 
     c_low, c_dash, c_high = st.columns([5, 1, 5])
@@ -154,7 +172,7 @@ if st.button("💰 Predict Price", type="primary", use_container_width=True):
         st.metric("Lower estimate (−10%)", f"${low:,.0f}")
     with c_dash:
         st.markdown(
-            "<div style='text-align:center;padding-top:28px;font-size:22px;'></div>",
+            "<div style='text-align:center;padding-top:28px;font-size:22px;'>—</div>",
             unsafe_allow_html=True
         )
     with c_high:
