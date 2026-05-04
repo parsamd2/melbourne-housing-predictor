@@ -244,10 +244,16 @@ html, body, [class*="css"], .stApp {
     transform: translateY(0) !important;
 }
 
-/* Hide ONLY the min/max number labels at the ends of the slider track */
+/* Remove orange background from min/max number labels — keep numbers visible */
 .stSlider div[data-testid="stTickBarMin"],
 .stSlider div[data-testid="stTickBarMax"] {
-    display: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #6B6358 !important;
+    font-size: 0.7rem !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
 }
 </style>
 """, unsafe_allow_html=True)
